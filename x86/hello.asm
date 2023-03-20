@@ -11,12 +11,14 @@
 section .data ; Static data, Constants
   msg: db "Name: "
   hello: db "Hello " ; db: define bytes: Puts this string onto the stack, and gives it the alias "hello". Addresses 0-6, remember strings are ended with a null byte
-  ending db "!", 10 ; 10 is the newline character 3 bytes, remember the null
+  ending: db "!", 10 ; 10 is the newline character 3 bytes, remember the null
+  outfile: db "out.txt" ; File name to output to.
 section .bss ; This section is where the we ask for dynamically reserved memory
   input: resb 16 ; Reserve 16 addresses 
 section .text
   global _start ; This makes the _start item available to external callers
   _start: 
+
 
     mov rax, 1      ; Moves the code for the Linux sys_write call into rax
        mov rdi, 1   ; Moves the code for STDOUT into the first parameter register
