@@ -8,11 +8,11 @@
 ;   rdx is the second argument, etc
 ;   
 ;   
-section .data ; Static data, Constants
+section .data ; Static data, Constants, and variables
   msg: db "Name: "
   hello: db "Hello " ; db: define bytes: Puts this string onto the stack, and gives it the alias "hello". Addresses 0-6, remember strings are ended with a null byte
   ending db "!", 10 ; 10 is the newline character 3 bytes, remember the null
-section .bss ; This section is where the we ask for dynamically reserved memory
+section .bss ; This section is where the we reserve empty variables
   input: resb 16 ; Reserve 16 addresses 
 section .text
   global _start ; This makes the _start item available to external callers
@@ -38,16 +38,16 @@ section .text
 
    ; Find the length of the user input string and only output that number of characters
     mov rax, 1                 ; Write
-        mov rdi, 1              ; To STDOUT
-        mov rsi, input          ; User input
-        mov r10, 0               ; Initialize character count to 0
+        mov rdi, 1             ; To STDOUT
+        mov rsi, input         ; User input
+        mov r10, 0             ; Initialize character count to 0
       check:
         cmp dword [input+r10], 10 ; Compare character of user input to NEWLINE 
-        je finished             ; and if equal goto finished
-        inc r10 ; Increment counter
+        je finished               ; and if equal goto finished
+        inc r10                   ; Increment counter
         jmp check
       finished:
-        ;dec r10 ; Removes the input newline (Always there?)
+        ;dec r10 ; Removes the input newline (Always there?), not necessary b/c number of chars to output is given.
         mov rdx, r10 ; Move the number of chars to write into third parameter register
     syscall
     
